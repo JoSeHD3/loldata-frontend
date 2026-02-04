@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 const RiotIdForm = () => {
     const router = useRouter();
@@ -19,17 +21,19 @@ const RiotIdForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input
+            <Input
                 placeholder="Nickname"
                 value={gameName}
                 onChange={e => setGameName(e.target.value)}
+                className="m-4 w-64"
             />
-            <input
+            <Input
                 placeholder="Tag"
                 value={tag}
                 onChange={e => setTag(e.target.value)}
+                className="m-4 mr-8 w-64"
             />
-            <button type="submit">Analyze</button>
+            <Button type="submit">Analyze</Button>
         </form>
     );
 };
