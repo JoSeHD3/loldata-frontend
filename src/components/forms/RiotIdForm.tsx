@@ -1,39 +1,62 @@
 'use client';
 
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useForm } from 'react-hook-form';
+import { riodIdSchema, RiotIdFormData } from '@/schemas/riotId.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
 
 const RiotIdForm = () => {
     const router = useRouter();
 
-    const [gameName, setGameName] = useState<string>('');
-    const [tag, setTag] = useState<string>('');
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<RiotIdFormData>({
+        resolver: zodResolver(riodIdSchema),
+        mode: 'onSubmit',
+    });
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const onSubmit = (data: RiotIdFormData) => {
         router.push(
-            `/analysis?gameName=${encodeURIComponent(gameName)}&tag=${encodeURIComponent(tag)}`
+            `/analysis?gameName=${encodeURIComponent(data.gameName)}&tag=${encodeURIComponent(data.tag)}`
         );
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Input
-                placeholder="Nickname"
-                value={gameName}
-                onChange={e => setGameName(e.target.value)}
-                className="m-4 w-64"
-            />
-            <Input
-                placeholder="Tag"
-                value={tag}
-                onChange={e => setTag(e.target.value)}
-                className="m-4 mr-8 w-64"
-            />
-            <Button type="submit">Analyze</Button>
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex max-w-sm flex-col gap-4"
+        >
+            <div>
+                <Input
+                    placeholder="Nickname"
+                    {...register('gameName')}
+                    className="m-4 w-64"
+                />
+                {errors.gameName && (
+                    <p className="mt-1 text-xs text-red-400">
+                        {errors.gameName.message}
+                    </p>
+                )}
+            </div>
+            <div>
+                <Input
+                    placeholder="Tag"
+                    {...register('tag')}
+                    className="m-4 mr-8 w-64"
+                />
+                {errors.tag && (
+                    <p className="mt-1 text-xs text-red-400">
+                        {errors.tag.message}
+                    </p>
+                )}
+            </div>
+            <Button type="submit" disabled={isSubmitting}>
+                Analyze
+            </Button>
         </form>
     );
 };

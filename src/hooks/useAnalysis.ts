@@ -1,28 +1,29 @@
 import { useQuery } from '@tanstack/react-query';
-import { AnalysisResponse } from '../types/analysis';
+import { AnalysisResponse } from '@/types/analysis';
 
-type UseAnalysisParams = {
+type RiotId = {
     gameName: string;
     tag: string;
 };
 
-export const useAnalysis = (params: UseAnalysisParams) => {
+export const useAnalysis = ({ gameName, tag }: RiotId) => {
     const { data, isLoading, isError } = useQuery<AnalysisResponse>({
-        queryKey: ['analysis', params],
-        queryFn: () => getAnalysisData(params),
-        enabled: Boolean(params.gameName && params.tag),
+        queryKey: ['analysis', { gameName, tag }],
+        queryFn: () => getAnalysisData({ gameName, tag }),
+        enabled: Boolean(gameName && tag),
         staleTime: 1000 * 60 * 5,
     });
 
     return { data, isLoading, isError };
 };
 
-const getAnalysisData = async (
-    params: UseAnalysisParams
-): Promise<AnalysisResponse> => {
+const getAnalysisData = async ({
+    gameName,
+    tag,
+}: RiotId): Promise<AnalysisResponse> => {
     const searchParams = new URLSearchParams({
-        gameName: params.gameName,
-        tag: params.tag,
+        gameName,
+        tag,
     });
 
     const res = await fetch(`/api/analysis?${searchParams}`);
