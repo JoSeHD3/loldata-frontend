@@ -5,16 +5,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useRegister } from '@/hooks/useRegister';
+import { useRouter } from 'next/navigation';
 
 const RegisterForm = () => {
+    const registerHook = useRegister();
+    const router = useRouter();
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
     const onSubmit = async (data: RegisterFormData) => {
         console.log('Register DATA', data);
+        registerHook.mutateAsync(data);
+        router.push('/login');
+        console.log('user registered');
     };
 
     return (
@@ -58,8 +65,8 @@ const RegisterForm = () => {
                     </p>
                 )}
             </div>
-            <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Logging in...' : 'Register'}
+            <Button type="submit" disabled={registerHook.isPending}>
+                {registerHook.isPending ? 'Logging in...' : 'Register'}
             </Button>
         </form>
     );

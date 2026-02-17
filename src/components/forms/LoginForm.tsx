@@ -5,16 +5,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useLogin } from '@/hooks/useLogin';
 
 const LoginForm = () => {
+    const login = useLogin();
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
     const onSubmit = async (data: LoginFormData) => {
-        console.log('LOGIN DATA', data);
+        console.log(`User data: ${data}`);
+        await login.mutateAsync(data);
+        console.log('User logged in ');
     };
 
     return (
@@ -46,8 +50,8 @@ const LoginForm = () => {
                     </p>
                 )}
             </div>
-            <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Logging in...' : 'Login'}
+            <Button type="submit" disabled={login.isPending}>
+                {login.isPending ? 'Logging in...' : 'Login'}
             </Button>
         </form>
     );
