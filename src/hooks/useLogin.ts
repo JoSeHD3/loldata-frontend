@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useLogin = () => {
+export const useLogin = (options?: {
+    onSuccess?: () => void;
+    onError?: (error: Error) => void;
+}) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -12,10 +15,19 @@ export const useLogin = () => {
                 body: JSON.stringify(data),
             });
 
-            if (!res.ok) throw new Error('Invalid credentials');
+            const responseData = await res.json();
 
-            return res.json();
+            if (!res.ok)
+                throw new Error(responseData.message || 'Invalid credentials');
+
+            return responseData;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['me'] }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['me'] });
+            options?.onSuccess?.();
+        },
+        onError: error => {
+            options?.onError?.(error as Error);
+        },
     });
 };

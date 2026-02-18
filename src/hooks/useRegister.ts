@@ -1,6 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-export const useRegister = () => {
+export const useRegister = (options?: {
+    onSuccess?: () => void;
+    onError?: (error: Error) => void;
+}) => {
     return useMutation({
         mutationFn: async (data: {
             email: string;
@@ -13,9 +16,13 @@ export const useRegister = () => {
                 body: JSON.stringify(data),
             });
 
-            if (!res.ok) throw new Error('Registration Failed');
+            const responseData = await res.json();
 
-            return res.json();
+            if (!res.ok)
+                throw new Error(responseData.message || 'Registration Failed');
+
+            return responseData;
         },
+        ...options,
     });
 };

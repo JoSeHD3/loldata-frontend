@@ -6,19 +6,30 @@ import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hooks/useLogin';
+import { toast } from '@/components/ui/Toast';
 
 const LoginForm = () => {
-    const login = useLogin();
+    const login = useLogin({
+        onSuccess: () => {
+            console.log('user logged in');
+        },
+        onError: error => {
+            toast({
+                title: 'Login failed',
+                description: error.message,
+                color: 'error',
+            });
+        },
+    });
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
-    const onSubmit = async (data: LoginFormData) => {
+    const onSubmit = (data: LoginFormData) => {
         console.log(`User data: ${data}`);
-        await login.mutateAsync(data);
-        console.log('User logged in ');
+        login.mutate(data);
     };
 
     return (
