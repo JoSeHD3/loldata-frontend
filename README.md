@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LOL DATA - League of Legends Analytics Dashboard (Frontend)
 
-## Getting Started
+Fullstack analytics dashboard for League of Legends players built with modern web technologies. The application integrates Riot API and provides advanced data visualisation and performance analysis.
 
-First, run the development server:
+## Project overview
 
-```bash
+LOL Data allows users to:
+
+- Create an account and authenticate securely
+- Connect and analyze League of Legends player data based on their LOL accounts
+- Visualize match statistics using charts
+- Analyze player performance across multiple domains
+- Explore efficiency metrics (damage, gold, CS, etc.)
+
+## Architecture
+
+The project is split into two separate repositories:
+
+### Frontend
+
+- Next.js (App Router)
+- TypeScript
+- React Query
+- React Hook Form + Zod
+- Tailwind CSS
+- Recharts
+- Shadcn/ui
+
+### Backend
+
+- NestJS
+- TypeScript
+- REST API
+- Riot Games API integration
+- Authentication and authorization systems with JWT
+- Mongodb
+
+## Figma project
+
+This shows the project's dashboard page and example of future UI.
+
+## Instalation
+
+### Frontend
+
+```Bash
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Backend
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```Bash
+npm i
+npm run start:dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Make sure to configure .env variables
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+Planned improvements:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Role-based access
+- Advanced performance scoring algorithm
+- Match timeline analysis
+- Caching
+- CI/CD pipelines and deployment
