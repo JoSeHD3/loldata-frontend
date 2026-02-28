@@ -38,6 +38,7 @@ The project is split into two separate repositories:
 ## Figma project
 
 This shows the project's dashboard page and example of future UI.
+<img width="1000" height="850" alt="Group 1" src="https://github.com/user-attachments/assets/29026059-582f-4960-93c5-2ff2008cd8be" />
 
 ## Instalation
 
