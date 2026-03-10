@@ -15,6 +15,7 @@ export const useUser = () => {
         queryKey: ['me'],
         queryFn: () => getUser(),
         retry: false,
+        staleTime: 5 * 60 * 1000,
     });
 
     return { user, isLoading, isError };
