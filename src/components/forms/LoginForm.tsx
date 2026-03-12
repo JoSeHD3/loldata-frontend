@@ -7,11 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hooks/useLogin';
 import { toast } from '@/components/ui/Toast';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
     const login = useLogin({
         onSuccess: () => {
             console.log('user logged in');
+            router.push(redirect);
         },
         onError: error => {
             toast({
@@ -26,6 +28,10 @@ const LoginForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
+    const router = useRouter();
+
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get('redirect') ?? '/dashboard';
 
     const onSubmit = (data: LoginFormData) => {
         console.log(`User data: ${data}`);
