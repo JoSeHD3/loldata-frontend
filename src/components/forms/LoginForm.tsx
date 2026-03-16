@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hooks/useLogin';
 import { toast } from '@/components/ui/Toast';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 const LoginForm = () => {
     const login = useLogin({
@@ -29,13 +30,14 @@ const LoginForm = () => {
         formState: { errors },
     } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
     const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const params = new URLSearchParams(window.location.search);
+    const params = useMemo(() => searchParams, [searchParams]);
     const redirect = params.get('redirect') ?? '/dashboard';
 
-    const onSubmit = (data: LoginFormData) => {
+    const onSubmit = async (data: LoginFormData) => {
         console.log(`User data: ${data}`);
-        login.mutate(data);
+        await login.mutateAsync(data);
     };
 
     return (

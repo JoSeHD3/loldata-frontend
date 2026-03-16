@@ -30,9 +30,9 @@ const RegisterForm = () => {
         formState: { errors },
     } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
-    const onSubmit = (data: RegisterFormData) => {
+    const onSubmit = async (data: RegisterFormData) => {
         console.log('Register DATA', data);
-        registerHook.mutate(data);
+        await registerHook.mutateAsync(data);
     };
 
     return (
