@@ -29,11 +29,9 @@ const AuthGuard = ({
         }
     }, [isError, isLoading, user, pathname, router, isAuthPage, loginPath]);
 
-    if (isLoading) {
+    if (isLoading || !user) {
         return <>{fallback}</>;
     }
-
-    if (!user) router.push(loginPath);
 
     return <>{children}</>;
 };
