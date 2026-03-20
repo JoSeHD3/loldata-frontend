@@ -1,10 +1,5 @@
+import { User } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
-
-export type User = {
-    id: string;
-    email: string;
-    role: 'user' | 'sub';
-};
 
 export const useUser = () => {
     const {

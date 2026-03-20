@@ -1,10 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { AnalysisResponse } from '@/types/analysis';
-
-type RiotId = {
-    gameName: string;
-    tag: string;
-};
+import { RiotId } from '@/types/riotId';
 
 export const useAnalysis = ({ gameName, tag }: RiotId) => {
     const { data, isLoading, isError } = useQuery<AnalysisResponse>({
