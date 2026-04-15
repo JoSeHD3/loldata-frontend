@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hooks/useLogin';
 import { toast } from '@/components/ui/Toast';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
 
 const LoginForm = () => {
     const login = useLogin({
@@ -32,8 +31,7 @@ const LoginForm = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const params = useMemo(() => searchParams, [searchParams]);
-    const redirect = params.get('redirect') ?? '/dashboard';
+    const redirect = searchParams.get('redirect') ?? '/dashboard';
 
     const onSubmit = async (data: LoginFormData) => {
         console.log(`User data: ${data}`);
